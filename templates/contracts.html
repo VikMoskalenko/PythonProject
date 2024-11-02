@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Contracts</title>
+     <link rel="stylesheet" type="text/css" href="{{url_for('.static', filename='style.css')}}"></link>
+</head>
+<body>
+{#{%  for one_contract in contracts %}#}
+{#    <div>{{ .name }} | price:  {{ one_item.price_hour }} per hour | description: {{ one_item.description }}</div>#}
+{#{% endfor %}#}
+<table>
+    <tr>
+        <th>Text</th>
+        <th>Start date</th>
+        <th>End date</th>
+
+    </tr>
+     {%  for one_contract in contracts %}
+    <tr>
+    <td>{{ one_contract.text}} </td>
+    <td>{{ one_contract.start_date }}</td>
+    <td>{{ one_contract.end_date }}</td>
+     </tr>
+    {% endfor %}
+</table>
+</body>
+</html>

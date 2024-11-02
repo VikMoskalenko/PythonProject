@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>User</title>
+     <link rel="stylesheet" type="text/css" href="{{url_for('.static', filename='style.css')}}"></link>
+</head>
+<body>
+<form method="post" action="/items">
+    Photo:
+    <input type="text" name="photo" placeholder="photo" id="photo"><br>
+    Name:
+    <input type="text" name="name" placeholder="name" id="name"><br>
+    Description:
+    <input type="text" name="description" placeholder="description" id="description"><br>
+    Price per hour:
+    <input type="text" name="price_hour" placeholder="price" id="price_hour"><br>
+    Price per week:
+    <input type="text" name="price_week" placeholder="price" id="price_week"><br>
+    Price per month:
+    <input type="text" name="price_month" placeholder="price" id="price_month"><br>
+
+
+
+    <input type="submit">
+</form>
+</body>
+</html>

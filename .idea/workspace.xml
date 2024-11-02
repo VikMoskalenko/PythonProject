@@ -4,9 +4,22 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e0894f6c-c9fd-453d-a573-f5e513bc0738" name="Changes" comment="added functionality">
+    <list default="true" id="e0894f6c-c9fd-453d-a573-f5e513bc0738" name="Changes" comment="added db">
+      <change afterPath="$PROJECT_DIR$/.idea/sqldialects.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/contracts.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/items.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/leasers.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/register.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/user.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/2a8515a5-84b6-4464-aeaf-deed49526569.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/2a8515a5-84b6-4464-aeaf-deed49526569/storage_v2/_src_/schema/main.uQUzAA.meta" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/48cc929c-397c-4fda-b6b5-91144bca60f5.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/48cc929c-397c-4fda-b6b5-91144bca60f5/storage_v2/_src_/schema/main.uQUzAA.meta" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/ProjectDB.db" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectDB.db" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/app.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/static/style.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/index.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/login.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/login.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -18,9 +31,9 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Flask Main" />
-        <option value="HTML File" />
         <option value="CSS File" />
         <option value="SQL File" />
+        <option value="HTML File" />
       </list>
     </option>
   </component>
@@ -52,6 +65,9 @@
     &quot;accountId&quot;: &quot;3291af45-2641-4068-8f64-e4c1b19059c0&quot;
   }
 }</component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
+  </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 5
 }</component>
@@ -66,6 +82,9 @@
     "DefaultHtmlFileTemplate": "HTML File",
     "Flask server.PythonProjectFlask.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "database.data.extractors.current.export.id": "SQL Inserts",
+    "database.data.extractors.current.id": "SQL Inserts",
     "git-widget-placeholder": "master",
     "last_opened_file_path": "C:/Users/vikto/sqlLite/ProjectDB.db",
     "list.type.of.created.stylesheet": "CSS",
@@ -74,6 +93,7 @@
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
+    "run.code.analysis.last.selected.profile": "aDefault",
     "settings.editor.selected.configurable": "preferences.lookFeel",
     "vue.rearranger.settings.migration": "true"
   },
@@ -127,7 +147,8 @@
       <workItem from="1729936721936" duration="8735000" />
       <workItem from="1730138894733" duration="14823000" />
       <workItem from="1730542723634" duration="3315000" />
-      <workItem from="1730546526641" duration="1399000" />
+      <workItem from="1730546526641" duration="7866000" />
+      <workItem from="1730566531610" duration="10421000" />
     </task>
     <task id="LOCAL-00001" summary="test">
       <option name="closed" value="true" />
@@ -153,7 +174,15 @@
       <option name="project" value="LOCAL" />
       <updated>1729945754472</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="added db">
+      <option name="closed" value="true" />
+      <created>1730547971979</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1730547971980</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -188,9 +217,21 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="test" />
     <MESSAGE value="added functionality" />
-    <option name="LAST_COMMIT_MESSAGE" value="added functionality" />
+    <MESSAGE value="added db" />
+    <option name="LAST_COMMIT_MESSAGE" value="added db" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="jinja2-line">
+          <url>file://$PROJECT_DIR$/templates/items.html</url>
+          <line>7</line>
+          <option name="timeStamp" value="3" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/PythonProjectFlask$PythonProjectFlask.coverage" NAME="PythonProjectFlask Coverage Results" MODIFIED="1729945679756" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
+    <SUITE FILE_PATH="coverage/PythonProjectFlask$PythonProjectFlask.coverage" NAME="PythonProjectFlask Coverage Results" MODIFIED="1730577611614" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>

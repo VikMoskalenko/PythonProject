@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Items</title>
+</head>
+<body>
+{%  for one_item in items %}
+    <div>{{ one_item.name }} | price:  {{ one_item.price_hour }} per hour | description: {{ one_item.description }}</div>
+{% endfor %}
+<table>
+    <tr>
+        <th>Name</th>
+        <th>Price</th>
+        <th>Description</th>
+
+    </tr>
+     {%  for one_item in items %}
+    <tr>
+    <td>{{ one_item.name }} </td>
+    <td>{{ one_item.price_hour }}</td>
+    <td>{{ one_item.description }}</td>
+     </tr>
+    {% endfor %}
+</table>
+</body>
+</html>
