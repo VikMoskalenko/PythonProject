@@ -17,9 +17,9 @@ def login():
   # password = request.form['password']
    #message = request.form['message']
 
-#print(f"Name: {username}, Password{password} ,Message: {message}")
+#to do logic with inserting values
 
-#return redirect(url_for('index'))
+#return redirect('/index')
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
@@ -40,6 +40,10 @@ def logout():
 @app.route('/items', methods=['GET', 'POST'])
 def all_items():
     if request.method == 'GET':
+#   with db_local('name') as db_cur:
+#   db_cur.execute("SELECT * FROM item")
+#   items = db_cur.fetchall()
+# return render template('')
         return 'GET'
     if request.method == 'POST':
         return 'POST'
