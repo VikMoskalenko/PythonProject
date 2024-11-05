@@ -6,6 +6,9 @@
      <link rel="stylesheet" type="text/css" href="{{url_for('.static', filename='style.css')}}"></link>
 </head>
 <body>
+
+hello {{ fullname }}
+
 <form method="post" action="/items">
     Photo:
     <input type="text" name="photo" placeholder="photo" id="photo"><br>

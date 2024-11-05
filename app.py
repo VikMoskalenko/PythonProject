@@ -1,6 +1,10 @@
-from flask import Flask, request, render_template, redirect
+from functools import wraps
+
+from flask import Flask, request, render_template, redirect, session, flash, url_for
 import sqlite3
+
 app = Flask(__name__)
+app.secret_key = 'fkfkfksirshp'
 def dict_factory(cursor, row):
     d = {}
     for idx, col in enumerate(cursor.description):
@@ -32,13 +36,28 @@ class DB_local():
 #     conn = sqlite3.connect('ProjectDB.db')
 #     cur = conn.cursor()
 #     return cur
+def login_required(func):
+    @wraps(func)
+    def wrapper(*args, **kwargs):
+        if 'user_id'not in session:
+            return redirect('/login')
+        return func(*args, **kwargs)
+    return wrapper
 @app.route('/')
 def index():  # put application's code here
     return render_template('index.html')
 @app.route('/profile', methods=['GET', 'POST'])
+@login_required
 def profile():
+    # if session.get('user_id') is None:
+    #     return redirect('/login')
     if request.method == 'GET':
-        return render_template('user.html')
+        with DB_local('Profile.db') as db_project:
+            query = f'''SELECT fullname FROM user where login = ?'''
+            print(query)
+            db_project.execute(query, (session['user_id']))
+            fullname = db_project.fetchone()['fullname']
+        return render_template('user.html', fullname=fullname)
     if request.method == 'POST':
         return 'post'
 @app.route('/register', methods=['GET', 'POST'])
@@ -62,6 +81,7 @@ def login():
      if request.method == 'GET':
          return render_template('login.html')
      elif request.method == 'POST':
+
         username = request.form['username']
         password = request.form['password']
 
@@ -70,19 +90,24 @@ def login():
                                 (username, password))
              user = db_project.fetchone()
              if user:
+                 session['user_id'] = user['login']
+
                  return "Login successful, welcome"
              else:
                  return "Wrong username or password", 401
 
 
 @app.route('/logout', methods=['GET', 'POST', 'DELETE'])
+@login_required
 def logout():
-    if request.method == 'GET':
-        return 'GET'
-    if request.method == 'POST':
-        return 'POST'
-    if request.method == 'DELETE':
-        return 'DELETE'
+    session.pop('user_id', None)
+    return redirect('/login')
+    # if request.method == 'GET':
+    #     return 'GET'
+    # if request.method == 'POST':
+    #     return 'POST'
+    # if request.method == 'DELETE':
+    #     return 'DELETE'
 
 @app.route('/items', methods=['GET', 'POST'])
 def all_items():
@@ -92,9 +117,19 @@ def all_items():
                   items = db_project.fetchall()
           return render_template('items.html', items=items)
     if request.method == 'POST':
+        if session.get('user_id') is None:
+            return redirect('/login')
+        else:
             with DB_local('ProjectDB.db') as db_project:
-                db_project.execute('''INSERT INTO item (photo, name, description, price_hour, price_week, price_month) 
-                                   VALUES (:photo, :name, :description, :price_hour, :price_week, :price_month)''', request.form)
+                user_login = session['user_id']
+                db_project.execute('select id from user where login = ?', (user_login,))
+                user_id = db_project.fetchone()['id']
+
+                query_args = request.form
+                query_args['owner_id'] = user_id
+
+                db_project.execute('''INSERT INTO item (photo, name, description, price_hour, price_week, price_month, owner_id) 
+                                   VALUES (:photo, :name, :description, :price_hour, :price_week, :price_month, :owner_id)''', query_args)
             return redirect('/items')
 
 
@@ -103,6 +138,8 @@ def items(item_id):
     if request.method == 'GET':
         return f'GET{item_id}'
     if request.method == 'DELETE':
+        if session.get('user_id') is None:
+            return redirect('/login')
         return f'DELETE{item_id}'
 
 
@@ -129,6 +166,23 @@ def all_contracts():
                   contracts = db_project.fetchall()
           return render_template('contracts.html', contracts=contracts)
     if request.method == 'POST':
+        #query = """insert into contract (text, start_date, end_date, leaser, taker, item) values (?,?,?,?,?,?)"""
+        with DB_local('ProjectDB.db') as db_project:
+            db_project.execute('select id from user where login = ?', (session['user_id'],))
+            my_id = db_project.fetchone()['id']
+            taker_id = my_id
+
+            item_id = request.form['item']
+            #from form hidden field
+            leaser_id = request.form['leaser']
+
+            #or by item from db
+            db_project.execute("select * from item where id = ?", (item_id,))
+            leaser_id = db_project.fetchone()['owner_id']
+            contract_status = "pending"
+            query_args = (request.form['text'], request.form['start_date'], request.form['end_date'],leaser_id, taker_id, item_id, contract_status)
+            insert_query = """insert into contract (text, start_date, end_date, leaser, taker, item, status) values(?,?,?,?,?,?,?)"""
+            db_project.execute(query, query_args)
         return 'POST'
 
 @app.route('/contracts/<contract_id>', methods=['GET', 'PATCH', 'PUT'])
