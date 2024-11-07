@@ -262,3 +262,5 @@ def compare():
 if __name__ == '__main__':
     app.run()
 
+#to do:
+#sort out with databases and template to html files
