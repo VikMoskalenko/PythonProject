@@ -166,7 +166,7 @@ def all_contracts():
                   contracts = db_project.fetchall()
           return render_template('contracts.html', contracts=contracts)
     if request.method == 'POST':
-        #query = """insert into contract (text, start_date, end_date, leaser, taker, item) values (?,?,?,?,?,?)"""
+        query = """insert into contract (text, start_date, end_date, leaser, taker, item) values (?,?,?,?,?,?)"""
         with DB_local('ProjectDB.db') as db_project:
             db_project.execute('select id from user where login = ?', (session['user_id'],))
             my_id = db_project.fetchone()['id']
