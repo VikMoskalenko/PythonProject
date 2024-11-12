@@ -43,6 +43,44 @@ def login_required(func):
             return redirect('/login')
         return func(*args, **kwargs)
     return wrapper
+
+class DbHandler:
+    db_file = 'ProjectDB.db'
+    def select(self, table_name, filter_dict=None, join_table=None, join_conditions=None):
+        if filter_dict is None:
+            filter_dict={}
+        with DB_local(self.db_file) as db_project:
+            query = f'SELECT * FROM {table_name} '
+            if join_table is not None:
+                query += f'JOIN {join_table} as right_table ON'
+               # ["user_id = item.owner", "item.id = contract.item"]
+                {table_name+"user_id": join_table+"item"}
+                join_conditions_list = []
+                for left_field, right_field in join_conditions.items():
+                    join_conditions_list.append(f'{table_name}.{left_field}=right_table.{right_field})')
+                query += 'AND '.join(join_conditions_list)
+
+            if filter_dict:
+                query += ' WHERE '
+                items = []
+                for key, value in filter_dict.items():
+                    items.append(f'{key}=?')
+                query += 'AND  '.join(items)
+            db_project.execute(query, tuple(value for value in filter_dict.values()))
+            return db_project.fetchall()
+
+    def insert(self, table_name, data_dict):
+        with DB_local(self.db_file) as db_project:
+            query = f'Insert INTO {table_name}'
+            query += ','.join(data_dict.keys())
+            query += ' VALUES ('
+            query += ','.join([f':{items}' for items in data_dict.values()])
+            query += ')'
+            #insert into table name a1,a2 values ?,?,
+            db_project.execute(query, data_dict.values)
+
+db_connector = DbHandler()
+
 @app.route('/')
 def index():  # put application's code here
     return render_template('index.html')
@@ -64,15 +102,9 @@ def profile():
 def register():
     if request.method == 'GET':
         return render_template('register.html')
-    elif request.method == 'POST':
-        with DB_local('ProjectDB.db') as db_project:
-            form_data = request.form
-            db_project.execute('''INSERT INTO user
-                (login, password, nino, fullname, photo, contacts) 
-                VALUES (?, ?, ?, ?, ?, ?)''',
-                (form_data['login'], form_data['password'],
-                 form_data['nino'], form_data['fullname'],
-                 form_data['photo'], form_data['contacts']))
+    if request.method == 'POST':
+        form_data = request.form
+        db_connector.insert('user', form_data)
 
         return redirect('/login')
 
@@ -85,16 +117,12 @@ def login():
         username = request.form['username']
         password = request.form['password']
 
-        with DB_local('ProjectDB.db') as db_project:
-             db_project.execute('''SELECT * FROM user where login = ? AND password = ? ''',
-                                (username, password))
-             user = db_project.fetchone()
-             if user:
-                 session['user_id'] = user['login']
-
-                 return "Login successful, welcome"
-             else:
-                 return "Wrong username or password", 401
+        user_data = db_connector.select('user', {'login': username, 'password': password})
+        if user_data:
+             session['user_id'] = user_data[0]['login']
+             return "Login successful, welcome " + user_data[0]['user_id']
+        else:
+            return "Wrong username or password", 401
 
 
 @app.route('/logout', methods=['GET', 'POST', 'DELETE'])
@@ -112,31 +140,25 @@ def logout():
 @app.route('/items', methods=['GET', 'POST'])
 def all_items():
     if request.method == 'GET':
-          with DB_local('ProjectDB.db') as db_project:
-                  db_project.execute("SELECT * FROM item")
-                  items = db_project.fetchall()
-          return render_template('items.html', items=items)
+        items = db_connector.select('item')
+        return render_template('items.html', items=items)
     if request.method == 'POST':
         if session.get('user_id') is None:
             return redirect('/login')
         else:
-            with DB_local('ProjectDB.db') as db_project:
-                user_login = session['user_id']
-                db_project.execute('select id from user where login = ?', (user_login,))
-                user_id = db_project.fetchone()['id']
+            user_id = db_connector.select('user', {'login': session['user_id']})[0]['id']
+            query_args = request.form
+            query_args['owner_id'] = user_id
+            db_connector.insert('item', query_args)
 
-                query_args = request.form
-                query_args['owner_id'] = user_id
-
-                db_project.execute('''INSERT INTO item (photo, name, description, price_hour, price_week, price_month, owner_id) 
-                                   VALUES (:photo, :name, :description, :price_hour, :price_week, :price_month, :owner_id)''', query_args)
             return redirect('/items')
 
 
 @app.route('/items/<item_id>', methods=['GET', 'DELETE'])
 def items(item_id):
     if request.method == 'GET':
-        return f'GET{item_id}'
+        item = db_connector.select('item', {'id': item_id})[0]
+        return render_template('items_id.html', item=item)
     if request.method == 'DELETE':
         if session.get('user_id') is None:
             return redirect('/login')
@@ -146,11 +168,12 @@ def items(item_id):
 @app.route('/leasers', methods=['GET'])
 def all_leasers():
     if request.method == 'GET':
-        with DB_local('ProjectDB.db') as db_project:
-            db_project.execute("Select * from leaser")
-            leasers = db_project.fetchall()
+        leaser = db_connector('contract', {})[0]
+        # with DB_local('ProjectDB.db') as db_project:
+        #     db_project.execute("Select * from leaser")
+        #     leasers = db_project.fetchall()
         return render_template('leasers.html', leasers=leasers)
-        return f'GET'
+
 
 
 @app.route('/leasers/<int:leasers_id>', methods=['GET', 'POST', 'DELETE'])
@@ -187,29 +210,44 @@ def leasers(leasers_id):
 @app.route('/contracts', methods=['GET', 'POST'])
 def all_contracts():
     if request.method == 'GET':
-          with DB_local('ProjectDB.db') as db_project:
-                  db_project.execute("SELECT * FROM contract")
-                  contracts = db_project.fetchall()
-          return render_template('contracts.html', contracts=contracts)
-    if request.method == 'POST':
-        query = """insert into contract (text, start_date, end_date, leaser, taker, item) values (?,?,?,?,?,?)"""
-        with DB_local('ProjectDB.db') as db_project:
-            db_project.execute('select id from user where login = ?', (session['user_id'],))
-            my_id = db_project.fetchone()['id']
-            taker_id = my_id
+        contr = db_connector.select('contract')
+        return render_template('contracts.html', contracts=contracts)
+    elif request.method == 'POST':
+        form_data = request.form
+        item_id = form_data['item_id']
+        user_id = session.get('user_id')
+        leaser = db_connector.select('item', {'id': item_id})[0]
+        taker = db_connector.select('user', {'login': user_id})[0]
+        new_cont = {
+            'text' : form_data['text'],
+            'start_date' : form_data['start_date'],
+            'end_date' : form_data['end_date'],
+            'leaser': form_data['leaser'],
+            'taker': form_data['taker'],
+            'item': item_id,
+            'status': 'pending'
+        }
+        db_connector.insert('contract', new_cont)
+        return 'Contract created'
+        # query = """insert into contract (text, start_date, end_date, leaser, taker, item) values (?,?,?,?,?,?)"""
+        # with DB_local('ProjectDB.db') as db_project:
+        #     db_project.execute('select id from user where login = ?', (session['user_id'],))
+           # my_id = db_project.fetchone()['id']
+          #  taker_id = my_id
 
-            item_id = request.form['item']
+           # item_id = request.form['item']
             #from form hidden field
-            leaser_id = request.form['leaser']
+          #  leaser_id = request.form['leaser']
 
             #or by item from db
-            db_project.execute("select * from item where id = ?", (item_id,))
-            leaser_id = db_project.fetchone()['owner_id']
-            contract_status = "pending"
-            query_args = (request.form['text'], request.form['start_date'], request.form['end_date'],leaser_id, taker_id, item_id, contract_status)
-            insert_query = """insert into contract (text, start_date, end_date, leaser, taker, item, status) values(?,?,?,?,?,?,?)"""
-            db_project.execute(query, query_args)
-        return 'POST'
+        # db_connector.select('item', {item_id})
+        #     db_project.execute("select * from item where id = ?", (item_id,))
+        #     leaser_id = db_project.fetchone()['owner_id']
+        #     contract_status = "pending"
+        #     query_args = (request.form['text'], request.form['start_date'], request.form['end_date'],leaser_id, taker_id, item_id, contract_status)
+        #     insert_query = """insert into contract (text, start_date, end_date, leaser, taker, item, status) values(?,?,?,?,?,?,?)"""
+        #     db_project.execute(query, query_args)
+        # return 'POST'
 
 @app.route('/contracts/<contract_id>', methods=['GET', 'PATCH', 'PUT'])
 def contracts(contract_id):
@@ -230,11 +268,9 @@ def search():
         if not query:
             flash("Please enter a search info")
             return redirect('/search')
-        with DB_local('ProjectDB.db') as db_project:
-            search_query = "Select * from items where name like ? or description like ?"
-            db_project.execute(search_query, (query,))
-            results = db_project.fetchall()
-        return render_template ('search_res.html', results=results, query=query)
+        search_res = db_connector.select('item', filter_dict={'query': query})
+
+        return render_template ('search_res.html', results=search_res, query=query)
 @app.route('/complain', methods=['POST'])
 def complain():
     if request.method == 'POST':
