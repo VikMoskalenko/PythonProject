@@ -1,7 +1,16 @@
 from functools import wraps
-
 from flask import Flask, request, render_template, redirect, session, flash
 import sqlite3
+
+from sqlalchemy.sql.functions import current_user
+from sqlalchemy.testing.config import db_url
+
+#from select import select
+from database import init_db, db_session
+#from models import User, Item
+import models
+from sqlalchemy import select
+
 
 app = Flask(__name__)
 app.secret_key = 'fkfkfksirshp'
@@ -80,6 +89,18 @@ class DbHandler:
             db_project.execute(query, data_dict.values)
 
 db_connector = DbHandler()
+class User(DbHandler):
+    table_name = None
+    id = None
+    login = None
+    password = None
+    full_name = None
+    def __init__(self, id, login, password, full_name):
+        self.id = id
+        self.login = login
+        self.password = password
+        self.full_name = full_name
+
 
 @app.route('/')
 def index():  # put application's code here
@@ -103,9 +124,26 @@ def register():
     if request.method == 'GET':
         return render_template('register.html')
     if request.method == 'POST':
-        form_data = request.form
-        db_connector.insert('user', form_data)
+        form_data = request.form.to_dict()
+        print("Form Data Received:", form_data)
+        #required_fields = ['login', 'password', 'full_name', 'nino', 'contacts', 'photo']
+       # missing_fields = [field for field in required_fields if field not in form_data or not form_data[field]]
+        #if missing_fields:
+         #   return f"Missing fields: {', '.join(missing_fields)}", 400
 
+       # if not form_data['full_name']:
+        #    return "Full name is required", 400
+        init_db()
+        user = models.User()
+
+        user.login = form_data['login']
+        user.password = form_data['password']
+        user.fullname = form_data['fullname']
+        user.nino = form_data['nino']
+        user.contacts = form_data['contacts']
+        user.photo = form_data['photo']
+        db_session.add(user)
+        db_session.commit()
         return redirect('/login')
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -116,11 +154,14 @@ def login():
 
         username = request.form['username']
         password = request.form['password']
+        init_db()
 
-        user_data = db_connector.select('user', {'login': username, 'password': password})
+       # user_data = db_connector.select('user', {'login': username, 'password': password})
+        query = select(models.User).where(models.User.login==username)
+        user_data = db_session.execute(query).first()
         if user_data:
-             session['user_id'] = user_data[0]['login']
-             return "Login successful, welcome " + user_data[0]['user_id']
+             session['user_id'] = user_data[0].user_id
+             return f"Login successful, welcome {user_data[0].login}"
         else:
             return "Wrong username or password", 401
 
@@ -140,16 +181,26 @@ def logout():
 @app.route('/items', methods=['GET', 'POST'])
 def all_items():
     if request.method == 'GET':
-        items = db_connector.select('item')
+        init_db()
+        items_query = select(models.Item)
+        items = db_session.execute(items_query).scalars().all()
+
         return render_template('items.html', items=items)
     if request.method == 'POST':
         if session.get('user_id') is None:
             return redirect('/login')
         else:
-            user_id = db_connector.select('user', {'login': session['user_id']})[0]['id']
-            query_args = request.form
-            query_args['owner_id'] = user_id
-            db_connector.insert('item', query_args)
+            init_db()
+            current_user = db_session.scalar(select(models.User).where(models.User.login==session['user_id']))
+
+            form_data = request.form.to_dict()
+            form_data['owner_id'] = current_user.user_id
+            new_item = models.Item(**form_data)
+            db_session.add(new_item)
+            db_session.commit()
+                # query_args = request.form
+                # query_args['user_id'] = current_user['user_id']
+                # db_connector.insert('item', query_args)
 
             return redirect('/items')
 
@@ -157,21 +208,30 @@ def all_items():
 @app.route('/items/<item_id>', methods=['GET', 'DELETE'])
 def items(item_id):
     if request.method == 'GET':
-        item = db_connector.select('item', {'id': item_id})[0]
-        return render_template('items_id.html', item=item)
+       # item = db_connector.select('item', {'id': item_id})[0]
+       item = db_connector.query(models.Item).get(item_id)
+       if item_id is None:
+          return f"Item with ID {item_id} not found", 404
+       return render_template('items_id.html', item=item)
     if request.method == 'DELETE':
         if session.get('user_id') is None:
             return redirect('/login')
+        current_user = db_session.scalar(select(models.User).where(models.User.login==session['user_id']))
+        item = db_session.query(models.Item).get(item_id)
+        if item is None:
+            return f"Item with ID {item_id} not found", 404
+        if item.owner_id == current_user.user_id:
+            return f"Item with ID {item_id} does not belong to {current_user.user_id} but you can see it :)"
+        db_session.delete(item)
+        db_session.commit()
         return f'DELETE{item_id}'
 
 
 @app.route('/leasers', methods=['GET'])
 def all_leasers():
     if request.method == 'GET':
-        leaser = db_connector('contract', {})[0]
-        # with DB_local('ProjectDB.db') as db_project:
-        #     db_project.execute("Select * from leaser")
-        #     leasers = db_project.fetchall()
+        #leaser = db_connector('contract', {})[0]
+        leaser = db_session.query(models.Leaser).all()
         return render_template('leasers.html', leasers=leasers)
 
 
@@ -209,15 +269,19 @@ def leasers(leasers_id):
 
 @app.route('/contracts', methods=['GET', 'POST'])
 def all_contracts():
+    init_db()
     if request.method == 'GET':
-        contr = db_connector.select('contract')
+        cont = db_session.query(models.Contract).all()
         return render_template('contracts.html', contracts=contracts)
     elif request.method == 'POST':
+        init_db()
         form_data = request.form
         item_id = form_data['item_id']
         user_id = session.get('user_id')
-        leaser = db_connector.select('item', {'id': item_id})[0]
-        taker = db_connector.select('user', {'login': user_id})[0]
+        item = db_session.query(models.Item).get(item_id)
+        user = db_session.query(models.User).filter(models.User.login==user_id).first()
+        # leaser = db_connector.select('item', {'id': item_id})[0]
+        # taker = db_connector.select('user', {'login': user_id})[0]
         new_cont = {
             'text' : form_data['text'],
             'start_date' : form_data['start_date'],
@@ -227,32 +291,19 @@ def all_contracts():
             'item': item_id,
             'status': 'pending'
         }
-        db_connector.insert('contract', new_cont)
+        db_session.add(new_cont)
+        db_session.commit()
         return 'Contract created'
-        # query = """insert into contract (text, start_date, end_date, leaser, taker, item) values (?,?,?,?,?,?)"""
-        # with DB_local('ProjectDB.db') as db_project:
-        #     db_project.execute('select id from user where login = ?', (session['user_id'],))
-           # my_id = db_project.fetchone()['id']
-          #  taker_id = my_id
 
-           # item_id = request.form['item']
-            #from form hidden field
-          #  leaser_id = request.form['leaser']
-
-            #or by item from db
-        # db_connector.select('item', {item_id})
-        #     db_project.execute("select * from item where id = ?", (item_id,))
-        #     leaser_id = db_project.fetchone()['owner_id']
-        #     contract_status = "pending"
-        #     query_args = (request.form['text'], request.form['start_date'], request.form['end_date'],leaser_id, taker_id, item_id, contract_status)
-        #     insert_query = """insert into contract (text, start_date, end_date, leaser, taker, item, status) values(?,?,?,?,?,?,?)"""
-        #     db_project.execute(query, query_args)
-        # return 'POST'
 
 @app.route('/contracts/<contract_id>', methods=['GET', 'PATCH', 'PUT'])
 def contracts(contract_id):
     if request.method == 'GET':
-        return f'GET{contract_id}'
+        init_db()
+        contract = db_session.query(models.Contract).get(contract_id)
+        if contract is None:
+            return "Contract not found", 404
+        return render_template("contracts.html", contract=contract)
     if request.method == 'POST':
         return 'POST'
     if request.method == 'PATCH':
@@ -274,20 +325,23 @@ def search():
 @app.route('/complain', methods=['POST'])
 def complain():
     if request.method == 'POST':
-        #return 'POST'
         complain_txt = request.form.get('complain')
-        user_id = session['user_id']
+        user_id = session.get('user_id')
 
-        if not user_id :
-            flash("Please login first and then write a complain")
+        if not user_id:
+            flash("Please login first and then write a complaint")
             return redirect(request.referrer or '/')
 
-        with DB_local('ProjectDB.db') as db_project:
-            db_project.execute("Insert into complain (user_id, complain_text) Values(?,?)", (user_id,complain_txt))
+        db_connector.insert('complain', {
+            'user_id': user_id,
+            'complain_text': complain_txt
+        })
 
-            flash("Your complaint has been submitted")
-            return('/')
+        flash("Your complaint has been submitted")
+        return redirect('/')
 
+
+    return render_template('complain.html')
 @app.route('/compare', methods=['GET', 'PUT'])
 def compare():
     if request.method == 'GET':
