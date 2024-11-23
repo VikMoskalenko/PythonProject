@@ -15,7 +15,7 @@ class User(Base):
     fullname = Column(String(150))
     photo = Column(String(150))
     contacts = Column(String(150))
-    email = Column(String(120))
+
 
 
 class Item(Base):
@@ -49,6 +49,7 @@ class Contract(Base):
     taker = mapped_column(Integer, ForeignKey('users.user_id'))
     item = mapped_column(Integer, ForeignKey('item.item_id'))
     status = Column(String(150))
+    #signed_date = Column(String(150))
     signed_date = Column(DateTime, default=datetime.datetime.now)
 
 

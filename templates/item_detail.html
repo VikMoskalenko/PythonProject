@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Item Details</title>
+     <link rel="stylesheet" type="text/css" href="{{url_for('.static', filename='style.css')}}"></link>
+</head>
+<body>
+<table>
+    <tr>
+        <th>Photo</th>
+        <th>Name</th>
+        <th>Description</th>
+        <th>Price hour</th>
+         <th>Price week</th>
+         <th>Price month</th>
+         <th>Owner</th>
+
+    </tr>
+
+    <tr>
+    <td>{{ photo }} </td>
+    <td>{{ name }}</td>
+        <td>{{ description }}</td>
+        <td>{{ price_hour }}</td>
+        <td>{{ price_week }}</td>
+        <td>{{ price_month}}</td>
+        <td>{{ owner_id }}</td>
+
+     </tr>
+
+</table>
+
+{% if current_user == owner_id %}
+<form action="/items/{{ item_id }}/delete" method="post">
+   <input type="submit" value="DELETE">
+
+</form>
+    {% else %}
+    <form action="/contracts" method="post">
+   <input type="date" name="start_date">
+    <input type="date" name="end_date">
+    <input type = "hidden" name="item_id" value = "{{ item_id }}">
+    <input type="submit" >  </input>
+</form>
+{% endif %}
+</body>
+</html>

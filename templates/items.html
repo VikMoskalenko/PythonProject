@@ -3,11 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <title>Items</title>
+     <link rel="stylesheet" type="text/css" href="{{url_for('.static', filename='style.css')}}"></link>
 </head>
 <body>
-{%  for one_item in items %}
-    <div>{{ one_item.name }} | price:  {{ one_item.price_hour }} per hour | description: {{ one_item.description }}</div>
-{% endfor %}
+{#{%  for one_item in items %}#}
+{#    <div>{{ one_item.name }} | price:  {{ one_item.price_hour }} per hour | description: {{ one_item.description }}</div>#}
+{#{% endfor %}#}
 <table>
     <tr>
         <th>Name</th>
@@ -20,6 +21,7 @@
     <td>{{ one_item.name }} </td>
     <td>{{ one_item.price_hour }}</td>
     <td>{{ one_item.description }}</td>
+        <td><a href="/items/{{ one_item.item_id }}" > Description</a></td>
      </tr>
     {% endfor %}
 </table>

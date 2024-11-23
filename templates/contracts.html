@@ -9,6 +9,7 @@
 {#{%  for one_contract in contracts %}#}
 {#    <div>{{ .name }} | price:  {{ one_item.price_hour }} per hour | description: {{ one_item.description }}</div>#}
 {#{% endfor %}#}
+<h1>My debs</h1>
 <table>
     <tr>
         <th>Text</th>
@@ -16,11 +17,32 @@
         <th>End date</th>
 
     </tr>
-     {%  for one_contract in contracts %}
+     {%  for one_contract in my_contract %}
     <tr>
     <td>{{ one_contract.text}} </td>
     <td>{{ one_contract.start_date }}</td>
     <td>{{ one_contract.end_date }}</td>
+     </tr>
+    {% endfor %}
+</table>
+
+<br>
+<br>
+<h1>My items in use</h1>
+<table>
+    <tr>
+        <th>Text</th>
+        <th>Start date</th>
+        <th>End date</th>
+        <th>Details</th>
+
+    </tr>
+     {%  for one_contract in contracts_by_my_items %}
+    <tr>
+    <td>{{ one_contract.text}} </td>
+    <td>{{ one_contract.start_date }}</td>
+    <td>{{ one_contract.end_date }}</td>
+        <td><a href="/contracts/{{ one_contract.contract_id }}">Details</a></td>
      </tr>
     {% endfor %}
 </table>

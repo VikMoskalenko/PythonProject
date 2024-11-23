@@ -1,0 +1,12 @@
+[
+  {
+    "complain_id": 1,
+    "complain_text": "disgusting",
+    "user_id": 1
+  },
+  {
+    "complain_id": 2,
+    "complain_text": "expensive",
+    "user_id": 2
+  }
+]

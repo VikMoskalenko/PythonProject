@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Contract Details</title>
+     <link rel="stylesheet" type="text/css" href="{{url_for('.static', filename='style.css')}}"></link>
+</head>
+<body>
+{{ contract.contract_id }}
+{{ contract.text }}
+{{ contract.start_date }}
+{{ contract.end_date }}
+{{ contract.leaser }}
+{{ contract.taker }}
+{{ contract.item }}
+{{ contract.status }}
+{{ contract.signed_date }}
+</body>
+</html>

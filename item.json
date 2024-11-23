@@ -1,0 +1,32 @@
+[
+  {
+    "item_id": 1,
+    "photo": "www.google",
+    "name": "fridge",
+    "description": "fridge",
+    "price_hour": 2.99,
+    "price_week": null,
+    "price_month": null,
+    "owner_id": null
+  },
+  {
+    "item_id": 2,
+    "photo": "www.table",
+    "name": "table",
+    "description": "table",
+    "price_hour": 3.77,
+    "price_week": null,
+    "price_month": null,
+    "owner_id": null
+  },
+  {
+    "item_id": 3,
+    "photo": "eee",
+    "name": "ee",
+    "description": "eeeee",
+    "price_hour": 3,
+    "price_week": 7,
+    "price_month": 12,
+    "owner_id": null
+  }
+]
