@@ -5,6 +5,8 @@
     <title>Leaser Details</title>
 </head>
 <body>
-
+<form action = "/item/{{ item_id }}" method = "post">
+    <input type = "hidden" name = "item_id" value = "{{ item_id }}"> </input>
+</form>
 </body>
 </html>

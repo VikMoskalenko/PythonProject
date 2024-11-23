@@ -8,7 +8,7 @@ from sqlalchemy.testing.config import db_url
 #from select import select
 from database import init_db, db_session
 #from models import User, Item
-import models
+import model
 from sqlalchemy import select
 
 
@@ -42,7 +42,7 @@ class DB_local():
 #
 #
 # def open_DB(db_name):
-#     conn = sqlite3.connect('ProjectDB.db')
+#     conn = sqlite3.connect('ProjectDB____.db')
 #     cur = conn.cursor()
 #     return cur
 def login_required(func):
@@ -54,7 +54,7 @@ def login_required(func):
     return wrapper
 
 class DbHandler:
-    db_file = 'ProjectDB.db'
+    db_file = 'ProjectDB____.db'
     def select(self, table_name, filter_dict=None, join_table=None, join_conditions=None):
         if filter_dict is None:
             filter_dict={}
@@ -239,7 +239,7 @@ def all_leasers():
 @app.route('/leasers/<int:leasers_id>', methods=['GET', 'POST', 'DELETE'])
 def leasers(leasers_id):
     if request.method == 'GET':
-        with DB_local('ProjectDB.db') as db_project:
+        with DB_local('ProjectDB____.db') as db_project:
             db_project.execute("Select * from leaser where id = ?", (leasers_id))
             leaser = db_project.fetchone()
         if leaser:
@@ -250,7 +250,7 @@ def leasers(leasers_id):
     elif request.method == 'POST':
        if 'user_id' not in session:
            return redirect('/login')
-       with DB_local('ProjectDB.db') as db_project:
+       with DB_local('ProjectDB____.db') as db_project:
            form_data = request.form
            db_project.execute(
                '''Update leaser SET name = ?, contact_info''',
@@ -261,7 +261,7 @@ def leasers(leasers_id):
     if request.method == 'DELETE':
         if 'user_id' not in session:
             return redirect('/login')
-        with DB_local('ProjectDB.db') as db_project:
+        with DB_local('ProjectDB____.db') as db_project:
             db_project.execute("Delete from leaser where id = ?", (leasers_id))
         return redirect('/leasers')
 

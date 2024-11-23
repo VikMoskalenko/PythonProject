@@ -1,4 +1,7 @@
-from sqlalchemy import Column, Integer, String, ForeignKey, REAL
+#from datetime import datetime
+import datetime
+
+from sqlalchemy import Column, Integer, String, ForeignKey, REAL, DateTime
 from sqlalchemy.testing.schema import mapped_column
 
 from database import Base
@@ -12,13 +15,8 @@ class User(Base):
     fullname = Column(String(150))
     photo = Column(String(150))
     contacts = Column(String(150))
+    email = Column(String(120))
 
-    # def __init__(self, name=None, email=None):
-    #     self.name = name
-    #     self.email = email
-    #
-    # def __repr__(self):
-    #     return f'<User {self.name!r}>'
 
 class Item(Base):
     __tablename__ = 'item'
@@ -49,10 +47,12 @@ class Contract(Base):
     end_date = Column(String(150))
     leaser = mapped_column(Integer, ForeignKey('leaser.leaser_id'))
     taker = mapped_column(Integer, ForeignKey('users.user_id'))
-    item = mapped_column(Integer, ForeignKey('items.item_id'))
+    item = mapped_column(Integer, ForeignKey('item.item_id'))
     status = Column(String(150))
+    signed_date = Column(DateTime, default=datetime.datetime.now)
 
-    def __init__(self, text, start_date, end_date, leaser, taker, item):
+
+    def __init__(self, text, start_date, end_date, leaser, taker, item, signed_date):
         self.text = text
         self.start_date = start_date
         self.end_date = end_date
@@ -60,6 +60,7 @@ class Contract(Base):
         self.taker = taker
         self.item = item
         self.status = 'available'
+        self.signed_date = signed_date
 
 class Leaser(Base):
     __tablename__ = 'leaser'
