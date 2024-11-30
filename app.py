@@ -422,7 +422,7 @@ def compare():
         return 'PUT'
 
 if __name__ == '__main__':
-    app.run()
+    app.run(debug=True, host="0.0.0.0")
 
 #to do:
 #sort out with databases and template to html files

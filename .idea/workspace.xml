@@ -4,26 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e0894f6c-c9fd-453d-a573-f5e513bc0738" name="Changes" comment="hw 7">
-      <change afterPath="$PROJECT_DIR$/complain.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/feedback.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/item.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/contract_details.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/item_detail.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/bd5d0b43-2208-4b00-917c-ed3f1aa34756.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/bd5d0b43-2208-4b00-917c-ed3f1aa34756.xml" afterDir="false" />
+    <list default="true" id="e0894f6c-c9fd-453d-a573-f5e513bc0738" name="Changes" comment="lesson 9">
+      <change afterPath="$PROJECT_DIR$/Dockerfile" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ProjectDB.db" beforeDir="false" afterPath="$PROJECT_DIR$/ProjectDB.db" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/app.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/model.py" beforeDir="false" afterPath="$PROJECT_DIR$/model.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/static/style.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/Search.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/Search.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/complain.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/complain.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/contracts.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/contracts.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/items.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/items.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/items_id.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/items_id.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/leaser_detail.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/leaser_detail.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/leasers.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/leasers.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/search_res.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/search_res.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -38,6 +22,7 @@
         <option value="SQL File" />
         <option value="Python Script" />
         <option value="HTML File" />
+        <option value="Dockerfile" />
       </list>
     </option>
   </component>
@@ -156,7 +141,9 @@
       <workItem from="1731438990872" duration="3706000" />
       <workItem from="1731605074440" duration="20439000" />
       <workItem from="1731950733330" duration="32610000" />
-      <workItem from="1732391572709" duration="964000" />
+      <workItem from="1732391572709" duration="1294000" />
+      <workItem from="1732555429250" duration="3146000" />
+      <workItem from="1732900098209" duration="5394000" />
     </task>
     <task id="LOCAL-00001" summary="test">
       <option name="closed" value="true" />
@@ -254,7 +241,15 @@
       <option name="project" value="LOCAL" />
       <updated>1732375814816</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="lesson 9">
+      <option name="closed" value="true" />
+      <created>1732392760342</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1732392760342</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -296,9 +291,10 @@
     <MESSAGE value="updated code with class helper" />
     <MESSAGE value="hw 6" />
     <MESSAGE value="hw 7" />
-    <option name="LAST_COMMIT_MESSAGE" value="hw 7" />
+    <MESSAGE value="lesson 9" />
+    <option name="LAST_COMMIT_MESSAGE" value="lesson 9" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/PythonProjectFlask$PythonProjectFlask.coverage" NAME="PythonProjectFlask Coverage Results" MODIFIED="1732392246648" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/PythonProjectFlask$PythonProjectFlask.coverage" NAME="PythonProjectFlask Coverage Results" MODIFIED="1732982832920" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>

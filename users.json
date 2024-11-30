@@ -1,0 +1,47 @@
+[
+  {
+    "user_id": 1,
+    "login": "user1",
+    "password": "password",
+    "nino": "KL8888",
+    "fullname": "User User",
+    "photo": null,
+    "contacts": "+308655553"
+  },
+  {
+    "user_id": 2,
+    "login": "user1",
+    "password": "password1",
+    "nino": "IL99988",
+    "fullname": "User1 user1",
+    "photo": null,
+    "contacts": ""
+  },
+  {
+    "user_id": 3,
+    "login": "Vikkk111",
+    "password": "hhhhh",
+    "nino": "NV45678",
+    "fullname": "Vik M",
+    "photo": "kkkk",
+    "contacts": "90865766"
+  },
+  {
+    "user_id": 4,
+    "login": "jjjj",
+    "password": "mmmmmm",
+    "nino": "NV45678",
+    "fullname": "Vik M",
+    "photo": "jjjj",
+    "contacts": "6886868"
+  },
+  {
+    "user_id": 5,
+    "login": "Vikkk111",
+    "password": "3456789",
+    "nino": "kj345678",
+    "fullname": "sdfghjklkjhgf",
+    "photo": "sdfghjkl,mnbvc",
+    "contacts": "456789"
+  }
+]
