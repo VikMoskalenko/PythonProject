@@ -1,0 +1,37 @@
+services:
+  web_app:
+    build: .
+    command:
+      -python app.py
+    ports:
+      - 5000:5000
+    environment:
+          - RABBITMQ_HOST=rabbit_host
+          - DB_HOST=db_host
+          - DB_USER=postgres
+          - DB_PASSWORD=example
+  rabbitmq:
+    image: rabbitmq:3-management
+    ports:
+      - 15672:15672
+      - 5672:5672
+    hostname: rabbit_host
+
+  celery_worker:
+    build: .
+    command: celery -A celery_tasks worker --loglevel=INFO
+    environment:
+      - RABBIT_HOST=rabbit_host
+      - RABBITMQ_HOST=rabbit_host
+      - DB_HOST=db_host
+      - DB_USER=postgres
+      - DB_PASSWORD=example
+
+  db_postgres:
+    image: postgres
+    restart: always
+    environment:
+      - POSTGRES_PASSWORD= example
+    hostname: db_host
+    ports:
+      - 5432:5432

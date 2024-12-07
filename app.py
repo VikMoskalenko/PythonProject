@@ -1,6 +1,7 @@
 from datetime import datetime
 from functools import wraps
-
+import celery_tasks
+from celery import Celery
 #import datetime
 from flask import Flask, request, render_template, redirect, session, flash
 import sqlite3
@@ -243,6 +244,7 @@ def delete_item(item_id):
     if item:
         db_session.delete(item)
         db_session.commit()
+        celery_tasks.send_email(item_id)
         return redirect('/items')
     return 'Item is not found', 404
 
@@ -420,6 +422,11 @@ def compare():
         return 'GET'
     if request.method == 'PUT':
         return 'PUT'
+@app.route('/add_task', methods=['GET'])
+def set_task():
+
+    celery_tasks.add.delay(1,2)
+    return "task sent"
 
 if __name__ == '__main__':
     app.run(debug=True, host="0.0.0.0")

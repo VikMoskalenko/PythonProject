@@ -1,8 +1,15 @@
+import os
+
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
-
-engine = create_engine('sqlite:///ProjectDB.db', connect_args={"check_same_thread": False})
+import psycopg2
+db_user = os.environ.get('DB_USER', "postgres")
+db_password = os.environ.get('DB_PASSWORD', "password")
+db_host = os.environ.get('DB_HOST', "localhost")
+db_port = os.environ.get('DB_PORT', "5432")
+engine = create_engine(f'postgresql://{db_user}:{db_password}@{db_host}:{db_port}/postgres', connect_args={"check_same_thread": False})
+#engine = create_engine('sqlite:///ProjectDB.db', connect_args={"check_same_thread": False})
 db_session = scoped_session(sessionmaker(autocommit=False,
                                          autoflush=False,
                                          bind=engine))
