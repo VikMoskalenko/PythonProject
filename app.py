@@ -3,6 +3,7 @@ from datetime import datetime
 from functools import wraps
 import celery_tasks
 from celery import Celery
+
 from flask import Flask, request, render_template, redirect, session, flash
 import sqlite3
 from sqlalchemy.sql.functions import current_user, func
