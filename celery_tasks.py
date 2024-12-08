@@ -6,7 +6,7 @@ from flask_sqlalchemy import model
 from sqlalchemy import select
 from database import init_db, db_session
 
-app = Celery('tasks', broker=f'pyamqp://guest@{environ.get("RABBITMQ_HOST","localhost")}//')
+app = Celery('tasks', broker=f'pyamqp://guest@{os.environ.get("RABBITMQ_HOST","localhost")}//')
 
 @app.task()
 def add(x, y):

@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="ProjectDB.db" uuid="bd5d0b43-2208-4b00-917c-ed3f1aa34756">
-      <driver-ref>sqlite.xerial</driver-ref>
+    <data-source source="LOCAL" name="postgres@localhost" uuid="a5685e49-d061-4bfd-8728-46bfbcc97a27">
+      <driver-ref>postgresql</driver-ref>
       <synchronize>true</synchronize>
-      <jdbc-driver>org.sqlite.JDBC</jdbc-driver>
-      <jdbc-url>jdbc:sqlite:$PROJECT_DIR$/ProjectDB.db</jdbc-url>
+      <jdbc-driver>org.postgresql.Driver</jdbc-driver>
+      <jdbc-url>jdbc:postgresql://localhost:5432/postgres</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
-    <data-source source="LOCAL" name="ProjectDB____" uuid="11459dbf-a34a-491b-8427-9a366c86e4fe">
+    <data-source source="LOCAL" name="ProjectDB" uuid="3185f7b9-2bf6-4c2c-a227-b20415fa37b8">
       <driver-ref>sqlite.xerial</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>org.sqlite.JDBC</jdbc-driver>
-      <jdbc-url>jdbc:sqlite:C:\Users\vikto\PycharmProjects\PythonProjectFlask\ProjectDB____.db</jdbc-url>
+      <jdbc-url>jdbc:sqlite:C:\Users\vikto\PycharmProjects\PythonProjectFlask\ProjectDB.db</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
       <libraries>
         <library>
