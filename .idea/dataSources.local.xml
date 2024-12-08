@@ -16,10 +16,5 @@
         </introspection-scope>
       </schema-mapping>
     </data-source>
-    <data-source name="ProjectDB" uuid="3185f7b9-2bf6-4c2c-a227-b20415fa37b8">
-      <database-info product="" version="" jdbc-version="" driver-name="" driver-version="" dbms="SQLITE" />
-      <auth-provider>no-auth</auth-provider>
-      <schema-mapping />
-    </data-source>
   </component>
 </project>

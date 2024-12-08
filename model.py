@@ -15,6 +15,7 @@ class User(Base):
     fullname = Column(String(150))
     photo = Column(String(150))
     contacts = Column(String(150))
+    email = Column(String(150))
 
 
 

@@ -3,7 +3,7 @@ import os
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
-import psycopg2
+
 # db_user = os.environ.get('DB_USER', "postgres")
 # db_password = os.environ.get('DB_PASSWORD', "password")
 # db_host = os.environ.get('DB_HOST', "localhost")

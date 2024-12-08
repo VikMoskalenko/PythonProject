@@ -4,16 +4,16 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e0894f6c-c9fd-453d-a573-f5e513bc0738" name="Changes" comment="hw 10">
+    <list default="true" id="e0894f6c-c9fd-453d-a573-f5e513bc0738" name="Changes" comment="added postgres">
+      <change afterPath="$PROJECT_DIR$/templates/base.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/bd5d0b43-2208-4b00-917c-ed3f1aa34756.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/bd5d0b43-2208-4b00-917c-ed3f1aa34756.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/alembic.ini" beforeDir="false" afterPath="$PROJECT_DIR$/alembic.ini" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/celery_tasks.py" beforeDir="false" afterPath="$PROJECT_DIR$/celery_tasks.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app.py" beforeDir="false" afterPath="$PROJECT_DIR$/app.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/database.py" beforeDir="false" afterPath="$PROJECT_DIR$/database.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/docker-compose.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/model.py" beforeDir="false" afterPath="$PROJECT_DIR$/model.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/login.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/login.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/user.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/user.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -26,9 +26,9 @@
         <option value="Flask Main" />
         <option value="CSS File" />
         <option value="SQL File" />
-        <option value="HTML File" />
         <option value="Dockerfile" />
         <option value="Python Script" />
+        <option value="HTML File" />
       </list>
     </option>
   </component>
@@ -83,7 +83,7 @@
     "database.data.extractors.current.export.id": "JSON-Groovy.json.groovy",
     "database.data.extractors.current.id": "SQL Inserts",
     "git-widget-placeholder": "master",
-    "last_opened_file_path": "C:/Users/vikto/PycharmProjects/PythonProjectFlask/complain.json",
+    "last_opened_file_path": "C:/Users/vikto/PycharmProjects/PythonProjectFlask/contract.json",
     "list.type.of.created.stylesheet": "CSS",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
@@ -108,7 +108,7 @@
       <recent name="C:\Users\vikto\PycharmProjects\PythonProjectFlask" />
     </key>
   </component>
-  <component name="RunManager" selected="Docker.docker-compose.yml.rabbitmq: Compose Deployment">
+  <component name="RunManager" selected="Flask server.PythonProjectFlask">
     <configuration name="PythonProjectFlask" type="Python.FlaskServer">
       <module name="PythonProjectFlask" />
       <option name="target" value="$PROJECT_DIR$/app.py" />
@@ -153,8 +153,8 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Docker.docker-compose.yml.rabbitmq: Compose Deployment" />
         <item itemvalue="Docker.docker-compose.yml: Compose Deployment" />
+        <item itemvalue="Docker.docker-compose.yml.rabbitmq: Compose Deployment" />
       </list>
     </recent_temporary>
   </component>
@@ -185,7 +185,7 @@
       <workItem from="1732391572709" duration="1294000" />
       <workItem from="1732555429250" duration="3146000" />
       <workItem from="1732900098209" duration="15786000" />
-      <workItem from="1733587946433" duration="17408000" />
+      <workItem from="1733587946433" duration="25760000" />
     </task>
     <task id="LOCAL-00001" summary="test">
       <option name="closed" value="true" />
@@ -307,7 +307,15 @@
       <option name="project" value="LOCAL" />
       <updated>1733597406425</updated>
     </task>
-    <option name="localTasksCounter" value="16" />
+    <task id="LOCAL-00016" summary="added postgres">
+      <option name="closed" value="true" />
+      <created>1733657590342</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1733657590342</updated>
+    </task>
+    <option name="localTasksCounter" value="17" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -352,9 +360,10 @@
     <MESSAGE value="lesson 9" />
     <MESSAGE value="added Dockerfile file" />
     <MESSAGE value="hw 10" />
-    <option name="LAST_COMMIT_MESSAGE" value="hw 10" />
+    <MESSAGE value="added postgres" />
+    <option name="LAST_COMMIT_MESSAGE" value="added postgres" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/PythonProjectFlask$PythonProjectFlask.coverage" NAME="PythonProjectFlask Coverage Results" MODIFIED="1733336908054" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
+    <SUITE FILE_PATH="coverage/PythonProjectFlask$PythonProjectFlask.coverage" NAME="PythonProjectFlask Coverage Results" MODIFIED="1733664237788" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$" />
   </component>
 </project>

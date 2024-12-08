@@ -6,6 +6,7 @@
     <link rel="stylesheet" type="text/css" href="{{url_for('.static', filename='style.css')}}"></link>
 </head>
 <body>
+{{ error_txt }}
 <div class="form-container">
     <h2>User Login</h2>
     <form action="/login" method="POST">
@@ -18,6 +19,9 @@
 
         <button type="submit">Login</button>
     </form>
+    {% if error_txt %}
+    <p>{{ error_txt }}</p>
+    {% endif %}
 </div>
 </body>
 </html>

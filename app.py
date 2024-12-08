@@ -1,14 +1,11 @@
+
 from datetime import datetime
 from functools import wraps
 import celery_tasks
 from celery import Celery
-#import datetime
 from flask import Flask, request, render_template, redirect, session, flash
 import sqlite3
-
 from sqlalchemy.sql.functions import current_user, func
-from sqlalchemy.testing.config import db_url
-
 #from select import select
 from database import init_db, db_session
 #from models import User, Item
@@ -17,6 +14,7 @@ from sqlalchemy import select
 
 
 app = Flask(__name__)
+
 app.secret_key = 'fkfkfksirshp'
 def dict_factory(cursor, row):
     d = {}
@@ -122,7 +120,7 @@ def profile():
             fullname = db_project.fetchone()['fullname']
         return render_template('user.html', fullname=fullname)
     if request.method == 'POST':
-        return 'post'
+        return render_template('user.html')
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     if request.method == 'GET':
@@ -146,7 +144,9 @@ def register():
 @app.route('/login', methods=['GET', 'POST'])
 def login():
      if request.method == 'GET':
-         return render_template('login.html')
+         error_txt = "not valide"
+
+         return render_template('login.html', error_txt=error_txt)
      elif request.method == 'POST':
 
         username = request.form['username']
@@ -158,10 +158,10 @@ def login():
         user_data = db_session.execute(query).first()
         if user_data:
              session['user_id'] = user_data[0].user_id
-             return f"Login successful, welcome {user_data[0].login}"
+             return redirect ('/profile')
 
         else:
-            return "Wrong username or password", 401
+            return redirect('/login?error=User not found')
 
 
 @app.route('/logout', methods=['GET', 'POST', 'DELETE'])

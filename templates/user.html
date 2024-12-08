@@ -1,31 +1,16 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>User</title>
-     <link rel="stylesheet" type="text/css" href="{{url_for('.static', filename='style.css')}}"></link>
-</head>
-<body>
+{% extends "base.html" %}
 
-hello {{ fullname }}
+{% block content %}
+    <h1>User Profile</h1>
 
-<form method="post" action="/items">
-    Photo:
-    <input type="text" name="photo" placeholder="photo" id="photo"><br>
-    Name:
-    <input type="text" name="name" placeholder="name" id="name"><br>
-    Description:
-    <input type="text" name="description" placeholder="description" id="description"><br>
-    Price per hour:
-    <input type="text" name="price_hour" placeholder="price" id="price_hour"><br>
-    Price per week:
-    <input type="text" name="price_week" placeholder="price" id="price_week"><br>
-    Price per month:
-    <input type="text" name="price_month" placeholder="price" id="price_month"><br>
+    <p>Full Name: {{ fullname }}</p>
+    <p>NINO: {{ nino }}</p>
+    <p>Email: {{ email }}</p>
+    <p>Contacts: {{ contacts }}</p>
 
-
-
-    <input type="submit">
-</form>
-</body>
-</html>
+    {% if photo %}
+        <img src="{{ url_for('static', filename='photos/' + photo) }}" alt="User Photo">
+    {% else %}
+        <p>No photo available.</p>
+    {% endif %}
+{% endblock %}
